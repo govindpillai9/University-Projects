@@ -10,11 +10,14 @@ until there is only one player left with money.
 ## Build
 
 	$ clang -Wall -Wextra -Werror -Wpedantic -o lrc lrc.o
-	
+	OR
+	$ make lrc
 ## Running
 
 	$ ./lrc
 	
 ## Cleaning
 	
-	rm -f lrc lrc.o
+	$ rm -f lrc lrc.o
+	OR
+	$ make lrc
