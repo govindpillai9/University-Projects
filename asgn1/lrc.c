@@ -22,6 +22,7 @@ static inline uint8_t right(uint8_t pos, uint8_t players) {
 }
 
 int main(void) {
+    //initializing variables
     uint8_t num_players = 0;
     int seed = 0;
     int players_with_money = 0;
@@ -30,15 +31,19 @@ int main(void) {
     int pot = 0;
     int roll = 0;
     int bank[] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
+    //asking user for random seed
     printf("Random Seed: ");
     scanf("%d", &seed);
+    //making sure user input is valid
     if (seed < 1) {
         printf("Pseudorandom seed must be non-negative (");
         printf("%d", seed);
         printf(")\n");
         return 1;
     }
+    //asking user for number of players
     printf("How many players? ");
+    //making sure user input is valid
     if (scanf("%" SCNu8, &num_players) != 1) {
         fprintf(stderr, "Number of players not defined\n");
         return 1;
@@ -48,16 +53,20 @@ int main(void) {
         return 1;
     }
     srandom(seed);
+    //start of while loop that is only broken once only one player has money
     while (1) {
+        //checks to see how many players has money
         for (uint8_t i = 0; i < num_players; i++) {
             if (bank[i] > 0) {
                 players_with_money++;
             }
         }
+        //if only one player has money, break from the loop
         if (players_with_money <= 1) {
             break;
         }
         players_with_money = 0;
+        //setting the number of rolls for the player at the current position
         if (bank[current_pos] >= 3) {
             num_rolls = 3;
         } else {
@@ -66,24 +75,33 @@ int main(void) {
         if (num_rolls > 0) {
             printf("%s rolls... ", philosophers[current_pos]);
         }
+        //for loop that produces each roll for the player at the current position
         for (int j = 0; j < num_rolls; j++) {
             roll = random() % 6;
+            //gives one dollar to the player on the left of current position
+            //prints the transaction
             if (die[roll] == LEFT) {
                 bank[current_pos] -= 1;
                 bank[left(current_pos, num_players)] += 1;
                 printf("gives $1 to ");
                 printf("%s", philosophers[left(current_pos, num_players)]);
                 printf(" ");
+                //gives one dollar to the player on the right of current position
+                //prints the transaction
             } else if (die[roll] == RIGHT) {
                 bank[current_pos] -= 1;
                 bank[right(current_pos, num_players)] += 1;
                 printf("gives $1 to ");
                 printf("%s", philosophers[right(current_pos, num_players)]);
                 printf(" ");
+                //gives one dollar to the pot
+                //prints the transaction
             } else if (die[roll] == CENTER) {
                 bank[current_pos] -= 1;
                 pot++;
                 printf("puts $1 in the pot ");
+                //does not distribute money
+                //prints transaction
             } else if (die[roll] == PASS) {
                 printf("gets a pass ");
             }
@@ -91,8 +109,11 @@ int main(void) {
         if (num_rolls > 0) {
             printf("\n");
         }
+        //sets current position to the player on the right of current position
         current_pos = right(current_pos, num_players);
     }
+    //finds the name of the winner
+    //prints the winner, the pot, and his bank total
     for (int x = 0; x < 14; x++) {
         if (bank[x] > 0) {
             printf(
