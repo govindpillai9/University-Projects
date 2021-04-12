@@ -33,7 +33,10 @@ int main(void) {
     int bank[] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
     //asking user for random seed
     printf("Random Seed: ");
-    scanf("%d", &seed);
+    if (scanf("%d", &seed) != 1) {
+        fprintf(stderr, "Random Seed not defined\n");
+        return 1;
+    }
     //making sure user input is valid
     if (seed < 1) {
         printf("Pseudorandom seed must be non-negative (");
@@ -41,11 +44,13 @@ int main(void) {
         printf(")\n");
         return 1;
     }
+    while ((getchar()) != '\n')
+        ;
     //asking user for number of players
     printf("How many players? ");
     //making sure user input is valid
     if (scanf("%" SCNu8, &num_players) != 1) {
-        fprintf(stderr, "Number of players not defined\n");
+        printf("%s", "Number of players not defined\n");
         return 1;
     }
     if (num_players < 1 || num_players > 14) {
