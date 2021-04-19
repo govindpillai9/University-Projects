@@ -13,7 +13,7 @@ static double abs(double x) {
     }
 }
 //Darrell Long's square root function from Piazza
-static double squareroot(double x) {
+double squareroot(double x) {
     double new = 1.0;
     double old = 0.0;
     while (abs(new - old) > EPSILON) {
@@ -34,20 +34,32 @@ static double Exp(double x) {
 }
 
 double arcSin(double x) {
-    double sum = x;
-    double term = x;
-    for (double k = 1; abs(term) > EPSILON; k += 2) {
-        term = term * (x * x) * ((k * k) / ((k + 1) * (k + 2)));
-        sum += term;
+    if (x <= -0.75) {
+        return arcCos(squareroot(1 - (x * x))) * -1;
+    } else if (x >= 0.75) {
+        return arcCos(squareroot(1 - (x * x)));
+    } else {
+        double sum = x;
+        double term = x;
+        for (double k = 1; abs(term) > EPSILON; k += 2) {
+            term = term * (x * x) * ((k * k) / ((k + 1) * (k + 2)));
+            sum += term;
+        }
+        return sum;
     }
-    return sum;
 }
 double arcCos(double x) {
-    return ((M_PI / 2) - (arcSin(x)));
+    if (x <= -0.75) {
+        return arcSin(squareroot(1 - (x * x))) * -1 + M_PI;
+    } else if (x >= 0.75) {
+        return arcSin(squareroot(1 - (x * x)));
+    } else {
+        return ((M_PI / 2) - (arcSin(x)));
+    }
 }
 
 double arcTan(double x) {
-    return arcSin(x / squareroot((x * x) + 1));
+    return arcCos(1 / squareroot((x * x) + 1));
 }
 double Log(double x) {
     double guess = 1.0;
