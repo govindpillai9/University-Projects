@@ -6,6 +6,7 @@
 
 #define OPTIONS "asctl"
 
+//Prints the header depending on what command is entered
 static void printheader(int n) {
     if (n == 0) {
         printf("%7s %16s %16s %16s\n", "x", "arcSin", "Library", "Difference");
@@ -38,7 +39,7 @@ int main(int argc, char **argv) {
         case 'c': arccos = 1; break;
         case 't': arctan = 1; break;
         case 'l': logCheck = 1; break;
-        default: printf("invalid input"); return 1;
+        default: printf("invalid input\n"); return 1;
         }
     }
 

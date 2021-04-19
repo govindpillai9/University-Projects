@@ -32,13 +32,15 @@ static double Exp(double x) {
     }
     return sum;
 }
-
+//Using Taylor Series
 double arcSin(double x) {
+    //edge case handling
     if (x <= -0.75) {
         return arcCos(squareroot(1 - (x * x))) * -1;
     } else if (x >= 0.75) {
         return arcCos(squareroot(1 - (x * x)));
     } else {
+        //taylor series code
         double sum = x;
         double term = x;
         for (double k = 1; abs(term) > EPSILON; k += 2) {
@@ -48,19 +50,25 @@ double arcSin(double x) {
         return sum;
     }
 }
+//Using ArcSin(x)  Taylor series
 double arcCos(double x) {
+    //edge case handling
     if (x <= -0.75) {
         return arcSin(squareroot(1 - (x * x))) * -1 + M_PI;
     } else if (x >= 0.75) {
         return arcSin(squareroot(1 - (x * x)));
     } else {
+        //calls on arcSin to compute arcCos
         return ((M_PI / 2) - (arcSin(x)));
     }
 }
 
+//Using ArcSin(x) Taylor series
 double arcTan(double x) {
-    return arcCos(1 / squareroot((x * x) + 1));
+    return arcSin(x / squareroot((x * x) + 1));
 }
+
+//Using Newton's method
 double Log(double x) {
     double guess = 1.0;
     while (abs(Exp(guess) - x) > EPSILON) {
