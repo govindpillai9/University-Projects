@@ -6,7 +6,7 @@
 
 
 
-typedef struct Stack Stack {
+typedef struct Stack {
 	uint32_t top;
 	uint32_t capacity;
 	int64_t *items;
@@ -18,7 +18,7 @@ Stack *stack_create(uint32_t capacity) {
 		s->top = 0;
 		s->capacity = capacity;
 		s->items = (int64_t *)calloc(capacity, sizeof(int64_t));
-		if(s == NULL) {
+		if(s->items == NULL) {
 			free(s);
 			s = NULL;
 		}
@@ -70,5 +70,6 @@ void stack_print(Stack *s) {
 		printf("%" PRId64, s->items[i]);
 		printf(", ");
 	}
+	printf("]");
 }
 
