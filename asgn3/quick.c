@@ -3,21 +3,16 @@
 #include "quick.h"
 #include "stack.h"
 #include "queue.h"
+#include "misc.h"
 uint32_t max_stack_size = 0;
 uint32_t max_queue_size = 0;
-int moves = 0;
-int comps = 0;
+moves = 0;
+comps = 0;
 void q_increment_step(int *steppnt, int x) {
         *steppnt += 1;
         if(x == 1) {
                 *steppnt = 0;
         }
-}
-int quick_moves() {
-        return moves;
-}
-int quick_comps() {
-        return comps;
 }
 static void swap(uint32_t *first, uint32_t *second) {
         uint32_t temp = *first;

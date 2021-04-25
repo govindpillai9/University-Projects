@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include "bubble.h"
 #include <stdint.h>
+#include "misc.h"
 
-int b_moves = 0;
-int b_comps = 0;
+moves = 0;
+comps = 0;
 
 static void swap(uint32_t *first, uint32_t *second);
 
@@ -12,8 +13,8 @@ int bubble_moves();
 int bubble_comps();
 
 void bubble_sort(uint32_t *A, uint32_t n) {
-	b_increment_step(&b_moves,1);
-	b_increment_step(&b_comps,1);
+	b_increment_step(&moves,1);
+	b_increment_step(&comps,1);
 	int swapped = 1;
 	while(swapped == 1) {
 		swapped = 0;
@@ -21,9 +22,9 @@ void bubble_sort(uint32_t *A, uint32_t n) {
 			if(A[i] < A[i-1]) {
 				swap(&A[i], &A[i-1]);
 				swapped = 1;
-				b_increment_step(&b_moves,0);
+				b_increment_step(&moves,0);
 			}
-			b_increment_step(&b_comps,0);
+			b_increment_step(&comps,0);
 		}	
 	}
 }
@@ -38,10 +39,4 @@ void b_increment_step(int *steppnt, int x) {
 	if(x == 1) {
 		*steppnt = 0;
 	}
-}
-int bubble_moves() {
-	return b_moves;
-}
-int bubble_comps() {
-	return b_comps;
 }
