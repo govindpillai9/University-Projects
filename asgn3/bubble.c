@@ -5,8 +5,7 @@
 int b_moves = 0;
 int b_comps = 0;
 
-void swap(uint32_t *first, uint32_t *second);
-void swap(uint32_t *first, uint32_t *second);
+static void swap(uint32_t *first, uint32_t *second);
 
 void b_increment_step(int *steppnt, int x);
 int bubble_moves();
@@ -29,7 +28,7 @@ void bubble_sort(uint32_t *A, uint32_t n) {
 	}
 }
 
-void swap(uint32_t *first, uint32_t *second) {
+static void swap(uint32_t *first, uint32_t *second) {
 	uint32_t temp = *first;
 	*first = *second;
 	*second = temp;
@@ -45,16 +44,4 @@ int bubble_moves() {
 }
 int bubble_comps() {
 	return b_comps;
-}
-
-int main(void) {
-	uint32_t bob[] = {35, 32, 30, 21, 11, 10, 7, 6, 5, 4, 3};
-	uint32_t *pnt;
-	pnt = bob;
-	bubble_sort(pnt, 11);
-	for(int x = 0; x < 11; x++) {
-		printf("%d ", bob[x]);
-	}
-	printf("%d moves", bubble_moves());
-	printf("%d comps", bubble_comps());
 }

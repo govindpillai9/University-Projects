@@ -3,13 +3,14 @@
 #include "queue.h"
 #include <stdlib.h>
 #include <inttypes.h>
+#include <stdio.h>
 typedef struct Queue {
 	uint32_t head;
 	uint32_t tail;
 	uint32_t size;
 	uint32_t capacity;
 	int64_t *items;
-};
+}Queue;
 
 Queue *queue_create(uint32_t capacity) {
 	Queue *q = (Queue *)malloc(sizeof(Queue));

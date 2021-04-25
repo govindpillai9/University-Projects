@@ -33,17 +33,6 @@ int shell_comps() {
         return s_comps;
 }
 
-int main(void) {
-        uint32_t bob[] = {35, 32, 30, 21, 11, 10, 7, 6, 5, 4, 3};
-        uint32_t *pnt;
-        pnt = bob;
-        shell_sort(pnt, 11);
-        for(int x = 0; x < 11; x++) {
-                printf("%d ", bob[x]);
-        }
-        printf("%d moves", shell_moves());
-        printf("%d comps", shell_comps());
-}
 
 void s_increment_step(int *steppnt, int x) {
         *steppnt += 1;
