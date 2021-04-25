@@ -3,9 +3,6 @@
 #include <stdint.h>
 #include "misc.h"
 
-moves = 0;
-comps = 0;
-
 static void swap(uint32_t *first, uint32_t *second);
 
 void b_increment_step(int *steppnt, int x);

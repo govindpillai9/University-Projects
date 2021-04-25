@@ -6,10 +6,13 @@
 #include "quick.h"
 #include <inttypes.h>
 #include "misc.h"
+#include <stdlib.h>
+
 #define OPTIONS "absqQr:n:p:"
 
 typedef enum Sort {BUBBLE, SHELL, QUICKS, QUICKQ} Sort;
-
+int moves;
+int comps;
 int main(int argc, char **argv) {
 	int opt = 0;
 	int seed = 13371453;
@@ -55,6 +58,8 @@ int main(int argc, char **argv) {
 	}
 	srandom(seed);
 	uint32_t arr[size];
+	uint32_t *b;
+	b = arr;
 	for(int i = 0; i < size; i++) {
 		arr[i] = (uint32_t)random();
 	}
@@ -76,7 +81,7 @@ int main(int argc, char **argv) {
 			else if(i == QUICKQ) {
 				printf("Quick Sort (Queue)\n");
 			}
-			sort_funcs[i](&arr, size);
+			sort_funcs[i](b, size);
 			printf("%d elements, %d moves, %d compares",size,moves,comps);
 			for(int x = 0; x < elements; x++) {
 				if(x % 5 == 0) {
@@ -84,6 +89,7 @@ int main(int argc, char **argv) {
 				}
 				printf("%13" PRIu32, arr[x]);
 			}
+			printf("\n");
 
 		}
 	}

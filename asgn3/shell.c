@@ -4,9 +4,6 @@
 #include "shell.h"
 #include "misc.h"
 
-moves = 0;
-comps = 0;
-
 void s_increment_step(int *steppnt, int x);
 void shell_sort(uint32_t *A, uint32_t n) {
 	s_increment_step(&moves, 1);

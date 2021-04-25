@@ -6,8 +6,6 @@
 #include "misc.h"
 uint32_t max_stack_size = 0;
 uint32_t max_queue_size = 0;
-moves = 0;
-comps = 0;
 void q_increment_step(int *steppnt, int x) {
         *steppnt += 1;
         if(x == 1) {
