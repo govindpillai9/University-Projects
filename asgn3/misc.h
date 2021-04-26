@@ -2,8 +2,3 @@
 
 extern int moves;
 extern int comps;
-
-
-
-
-

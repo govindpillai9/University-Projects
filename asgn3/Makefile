@@ -33,6 +33,6 @@ misc.o: misc.c
 clean:
 	rm -f *.o sorting
 
-clang-format:
+format:
 	clang-format -i -style=file *.h *.c
 
