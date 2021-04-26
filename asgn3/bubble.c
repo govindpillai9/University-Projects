@@ -2,34 +2,41 @@
 #include "bubble.h"
 #include <stdint.h>
 #include "misc.h"
-
+#include <stdbool.h>
 static void swap(uint32_t *first, uint32_t *second);
 
 void b_increment_step(int *steppnt, int x);
-int bubble_moves();
-int bubble_comps();
+
+static bool compare(uint32_t x, uint32_t y);
 
 void bubble_sort(uint32_t *A, uint32_t n) {
 	b_increment_step(&moves,1);
 	b_increment_step(&comps,1);
-	int swapped = 1;
-	while(swapped == 1) {
-		swapped = 0;
+	bool swapped = true;
+	while(swapped) {
+		swapped = false;
 		for(uint32_t i = 1; i < n; i++) {
-			if(A[i] < A[i-1]) {
+			if(compare(A[i], A[i-1])) {
 				swap(&A[i], &A[i-1]);
-				swapped = 1;
-				b_increment_step(&moves,0);
+				swapped = true;
 			}
-			b_increment_step(&comps,0);
-		}	
+		}
+		n -= 1;
+			
 	}
 }
 
 static void swap(uint32_t *first, uint32_t *second) {
+	b_increment_step(&moves,0);
 	uint32_t temp = *first;
+	b_increment_step(&moves,0);
 	*first = *second;
+	b_increment_step(&moves,0);
 	*second = temp;
+}
+static bool compare(uint32_t x, uint32_t y) {
+	b_increment_step(&comps, 0);
+	return x < y;
 }
 void b_increment_step(int *steppnt, int x) {
 	*steppnt += 1;

@@ -13,6 +13,8 @@
 typedef enum Sort {BUBBLE, SHELL, QUICKS, QUICKQ} Sort;
 int moves;
 int comps;
+uint32_t max_stack_size;
+uint32_t max_queue_size;
 int main(int argc, char **argv) {
 	int opt = 0;
 	int seed = 13371453;
@@ -58,10 +60,12 @@ int main(int argc, char **argv) {
 	}
 	srandom(seed);
 	uint32_t arr[size];
+	uint32_t copy[size];
 	uint32_t *b;
 	b = arr;
 	for(int i = 0; i < size; i++) {
 		arr[i] = (uint32_t)random();
+		copy[i] = arr[i];
 	}
 	if(elements > size) {
 		elements = size;
@@ -83,6 +87,12 @@ int main(int argc, char **argv) {
 			}
 			sort_funcs[i](b, size);
 			printf("%d elements, %d moves, %d compares",size,moves,comps);
+			if(i == QUICKS) {
+				printf("\nMax stack size: %d",max_stack_size);
+			}
+			else if(i == QUICKQ) {
+				printf("\nMax queue size: %d",max_queue_size);
+			}
 			for(int x = 0; x < elements; x++) {
 				if(x % 5 == 0) {
 					printf("\n");
@@ -90,6 +100,9 @@ int main(int argc, char **argv) {
 				printf("%13" PRIu32, arr[x]);
 			}
 			printf("\n");
+			for (int f = 0; f < size; f++) {
+				arr[f] = copy[f];
+			}
 
 		}
 	}
