@@ -6,11 +6,11 @@
 #include <stdint.h>
 #include <stdio.h>
 static void swap(uint32_t *first, uint32_t *second);
-
+//helps increment or set moves or comps to zero
 void b_increment_step(int *steppnt, int x);
-
+//checks if x is less than y while incrementing comps
 static bool compare(uint32_t x, uint32_t y);
-
+//based on python pseudocode from the lab doc
 void bubble_sort(uint32_t *A, uint32_t n) {
     b_increment_step(&moves, 1);
     b_increment_step(&comps, 1);
@@ -26,7 +26,7 @@ void bubble_sort(uint32_t *A, uint32_t n) {
         n -= 1;
     }
 }
-
+//swap function
 static void swap(uint32_t *first, uint32_t *second) {
     b_increment_step(&moves, 0);
     uint32_t temp = *first;

@@ -5,8 +5,9 @@
 
 #include <stdint.h>
 #include <stdio.h>
-
+//helps increment or set to zero for moves and comps
 void s_increment_step(int *steppnt, int x);
+//based on python pseudocode from lab doc
 void shell_sort(uint32_t *A, uint32_t n) {
     s_increment_step(&moves, 1);
     s_increment_step(&comps, 1);

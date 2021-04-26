@@ -8,12 +8,14 @@
 #include <stdio.h>
 uint32_t max_stack_size = 0;
 uint32_t max_queue_size = 0;
+//helps increment or set moves or comps to zero
 void q_increment_step(int *steppnt, int x) {
     *steppnt += 1;
     if (x == 1) {
         *steppnt = 0;
     }
 }
+//swap function
 static void swap(uint32_t *first, uint32_t *second) {
     q_increment_step(&moves, 0);
     uint32_t temp = *first;
@@ -22,7 +24,7 @@ static void swap(uint32_t *first, uint32_t *second) {
     q_increment_step(&moves, 0);
     *second = temp;
 }
-
+//based on python psuedocode from lab doc
 static int64_t partition(uint32_t *A, int64_t lo, int64_t hi) {
     uint32_t pivot = A[lo + ((hi - lo) / 2)];
     int64_t i = lo - 1;
@@ -43,7 +45,7 @@ static int64_t partition(uint32_t *A, int64_t lo, int64_t hi) {
     } while (i < j);
     return j;
 }
-
+//based on python pseudocode from lab doc
 void quick_sort_stack(uint32_t *A, uint32_t n) {
     max_stack_size = 0;
     q_increment_step(&moves, 1);
@@ -79,6 +81,7 @@ void quick_sort_stack(uint32_t *A, uint32_t n) {
     stack_delete(&s);
 }
 
+//based on python psuedocode from lab doc
 void quick_sort_queue(uint32_t *A, uint32_t n) {
     max_queue_size = 0;
     q_increment_step(&moves, 1);

@@ -11,7 +11,7 @@ typedef struct Stack {
     uint32_t capacity;
     int64_t *items;
 } Stack;
-
+//code from assignment three lab doc
 Stack *stack_create(uint32_t capacity) {
     Stack *s = (Stack *) malloc(sizeof(Stack));
     if (s) {
@@ -25,7 +25,7 @@ Stack *stack_create(uint32_t capacity) {
     }
     return s;
 }
-
+//code from assignment three lab doc
 void stack_delete(Stack **s) {
     if (*s && (*s)->items) {
         free((*s)->items);
