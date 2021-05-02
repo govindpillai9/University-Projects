@@ -3,7 +3,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "vertices.h"
-
+#include <stdlib.h>
+#include <stdint.h>
 typedef struct Path Path {
         Stack *vertices;
         uint32_t length;
