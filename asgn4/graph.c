@@ -15,16 +15,19 @@ typedef struct Graph Graph {
 
 Graph *graph_create(uint32_t vertices, bool undirected) {
 	Graph *g = (Graph *) malloc(sizeof(Graph));
-	g->vertices = vertices;
-	g->undirected = undirected;
-	for(uint32_t i = 0; i < VERTICES; i++) {
-		g->visited[i] = false;
-	}
-	for(uint32_t x = 0; x < VERTICES; x++) {
-		for(uint32_t y = 0; y < VERTICES; y++) {
-			g->matrix[x][y] = 0;
+	if(g) {
+		g->vertices = vertices;
+		g->undirected = undirected;
+		for(uint32_t i = 0; i < VERTICES; i++) {
+			g->visited[i] = false;
+		}	
+		for(uint32_t x = 0; x < VERTICES; x++) {
+			for(uint32_t y = 0; y < VERTICES; y++) {
+				g->matrix[x][y] = 0;
+			}
 		}
 	}
+	return g;
 }
 
 void graph_delete(Graph **G) {
