@@ -20,5 +20,5 @@ path.o: path.c
 clean:
 	rm -f *.o tsp
 
-clang-format:
+format:
 	clang-format -i -style=file *.h *.c
