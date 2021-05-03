@@ -9,7 +9,7 @@ typedef struct Stack {
     uint32_t capacity;
     int64_t *items;
 } Stack;
-
+//create stack
 Stack *stack_create(uint32_t capacity) {
     Stack *s = (Stack *) malloc(sizeof(Stack));
     if (s) {
@@ -23,7 +23,7 @@ Stack *stack_create(uint32_t capacity) {
     }
     return s;
 }
-
+//delete stack
 void stack_delete(Stack **s) {
     if (*s && (*s)->items) {
         free((*s)->items);
@@ -32,19 +32,19 @@ void stack_delete(Stack **s) {
     }
     return;
 }
-
+//returns the size of the stack
 uint32_t stack_size(Stack *s) {
     return s->top;
 }
-
+//returns if the stack is empty
 bool stack_empty(Stack *s) {
     return s->top == 0;
 }
-
+//returns if the stack is full
 bool stack_full(Stack *s) {
     return s->top == s->capacity;
 }
-
+//pushes an item on to the stack
 bool stack_push(Stack *s, uint32_t x) {
     if (stack_full(s)) {
         return false;
@@ -53,7 +53,7 @@ bool stack_push(Stack *s, uint32_t x) {
     s->top += 1;
     return true;
 }
-
+//pops an item off the stack
 bool stack_pop(Stack *s, uint32_t *x) {
     if (stack_empty(s)) {
         return false;
@@ -62,6 +62,7 @@ bool stack_pop(Stack *s, uint32_t *x) {
     *x = s->items[s->top];
     return true;
 }
+//provides the first item on the stack
 bool stack_peek(Stack *s, uint32_t *x) {
     if (stack_empty(s)) {
         return false;
@@ -69,7 +70,7 @@ bool stack_peek(Stack *s, uint32_t *x) {
     *x = s->items[s->top - 1];
     return true;
 }
-
+//copies a source stack into a destination stack
 void stack_copy(Stack *dst, Stack *src) {
     uint32_t job = 0;
     uint32_t *jv;
@@ -84,7 +85,7 @@ void stack_copy(Stack *dst, Stack *src) {
         return;
     }
 }
-
+//prints the stack
 void stack_print(Stack *s, FILE *outfile, char *cities[]) {
     for (uint32_t i = 0; i < s->top; i++) {
         fprintf(outfile, "%s", cities[s->items[i]]);

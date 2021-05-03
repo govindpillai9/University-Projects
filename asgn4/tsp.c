@@ -16,32 +16,40 @@ bool verbose = false;
 bool *verbpoint = &verbose;
 bool und = false;
 bool *undd = &und;
+//depth-first search functiom
 void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile) {
     uint32_t poppers = 0;
     uint32_t *ptr;
     ptr = &poppers;
     bool isHamiltonian = true;
+    //pops vertex onto path and marks as visited
     graph_mark_visited(G, v);
     if (path_push_vertex(curr, v, G)) {
+	    //iterates through the edges this vertex is in
         for (uint32_t i = 0; i < graph_vertices(G); i++) {
             if (graph_has_edge(G, v, i) && (!graph_visited(G, i))) {
+		    //if there is an edge with a vertex unvisited, recursively call dfs
                 (*caller)++;
                 dfs(G, i, curr, shortest, cities, outfile);
             }
         }
         for (uint32_t j = 0; j < graph_vertices(G); j++) {
+		//make sure all vertices have been visited
             if (!graph_visited(G, j)) {
                 isHamiltonian = false;
                 break;
             }
         }
         if (isHamiltonian && (!graph_has_edge(G, v, START_VERTEX))) {
+		//make sure the last vertex visited has an edge with the start vertex
             isHamiltonian = false;
         }
         if (isHamiltonian
             && ((path_length(curr) < path_length(shortest)) || ((path_length(shortest) == 0)))) {
+		//if we have our shortest hamiltonian stack then copy into shortest
             path_push_vertex(curr, START_VERTEX, G);
             path_copy(shortest, curr);
+	    //if in verbose mode print the path
             if (verbose) {
                 printf("Path Length: %d\n", path_length(curr));
                 printf("Path: ");
@@ -64,6 +72,7 @@ int main(int argc, char **argv) {
     bool help = false;
     FILE *fp = stdout;
     FILE *inputp = stdin;
+    //cases
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
         case 'h': help = true; break;
@@ -93,6 +102,7 @@ int main(int argc, char **argv) {
     uint32_t b = 0;
     uint32_t c = 0;
     int r = 0;
+    //reading file
     char bar[1024];
     fscanf(inputp, "%d", &num_verts);
     fgets(bar, 1024, inputp);
@@ -118,6 +128,7 @@ int main(int argc, char **argv) {
     printf("Path: ");
     path_print(shortpath, fp, arr);
     printf("Total recursive calls: %d\n", calls);
+    //freeing up space
     path_delete(&shortpath);
     path_delete(&current);
     graph_delete(&big);

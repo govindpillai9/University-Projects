@@ -10,7 +10,7 @@ typedef struct Path {
     Stack *vertices;
     uint32_t length;
 } Path;
-
+//creates the path
 Path *path_create(void) {
     Path *p = (Path *) malloc(sizeof(Path));
     if (p) {
@@ -23,7 +23,7 @@ Path *path_create(void) {
     }
     return p;
 }
-
+//deletes the path
 void path_delete(Path **p) {
     if (*p && (*p)->vertices) {
         stack_delete(&(*p)->vertices);
@@ -32,7 +32,7 @@ void path_delete(Path **p) {
     }
     return;
 }
-
+//pushes a vertex onto the path
 bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
     uint32_t x = 0;
     uint32_t *j;
@@ -47,7 +47,7 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
     }
     return stack_push(p->vertices, v);
 }
-
+//pops a vertex off the path
 bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {
     uint32_t x = 0;
     uint32_t *j;
@@ -62,19 +62,20 @@ bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {
     }
     return false;
 }
-
+//returns the number of vertices in the path
 uint32_t path_vertices(Path *p) {
     return stack_size(p->vertices);
 }
-
+//returns the sum of the weights of the path
 uint32_t path_length(Path *p) {
     return p->length;
 }
-
+//copies a source path into a destination path
 void path_copy(Path *dst, Path *src) {
     stack_copy(dst->vertices, src->vertices);
     dst->length = src->length;
 }
+//prints the path
 void path_print(Path *p, FILE *outfile, char *cities[]) {
     stack_print(p->vertices, outfile, cities);
 }
