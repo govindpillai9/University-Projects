@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "stack.h"
-typedef struct Stack Stack {
+typedef struct Stack {
 	uint32_t top;
 	uint32_t capacity;
-	uint32_t *items;
-}
+	int64_t *items;
+}Stack;
 
 Stack *stack_create(uint32_t capacity) {
 	Stack *s = (Stack *) malloc(sizeof(Stack));
@@ -43,7 +43,7 @@ bool stack_empty(Stack *s) {
 }
 
 bool stack_full(Stack *s) {
-	return s->top == s-capacity;
+	return s->top == s->capacity;
 }
 
 bool stack_push(Stack *s, uint32_t x) {
@@ -75,7 +75,7 @@ bool stack_peek(Stack *s, uint32_t *x) {
 
 void stack_copy(Stack *dst, Stack *src) {
 	for(uint32_t i = 0; i < stack_size(src); i++) {
-		dst->items[i] = src->[i];
+		dst->items[i] = src->items[i];
 	}
 	return;
 	

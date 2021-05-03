@@ -1,33 +1,33 @@
 #include "graph.h"
-
+#include "vertices.h"
 #include <inttypes.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Graph Graph {
+typedef struct Graph {
 	uint32_t vertices;
 	bool undirected;
 	bool visited[VERTICES];
 	uint32_t matrix[VERTICES][VERTICES];
-}
+}Graph;
 
 Graph *graph_create(uint32_t vertices, bool undirected) {
-	Graph *g = (Graph *) malloc(sizeof(Graph));
-	if(g) {
-		g->vertices = vertices;
-		g->undirected = undirected;
+	Graph *G = (Graph *) malloc(sizeof(Graph));
+	if(G) {
+		G->vertices = vertices;
+		G->undirected = undirected;
 		for(uint32_t i = 0; i < VERTICES; i++) {
-			g->visited[i] = false;
+			G->visited[i] = false;
 		}	
 		for(uint32_t x = 0; x < VERTICES; x++) {
 			for(uint32_t y = 0; y < VERTICES; y++) {
-				g->matrix[x][y] = 0;
+				G->matrix[x][y] = 0;
 			}
 		}
 	}
-	return g;
+	return G;
 }
 
 void graph_delete(Graph **G) {
@@ -40,36 +40,37 @@ void graph_delete(Graph **G) {
 }
 
 uint32_t graph_vertices(Graph *G) {
-	return g->vertices;
+	return G->vertices;
 }
 
 bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k) {
-	g->matrix[i][j] = k;
+	G->matrix[i][j] = k;
+	return true;
 }
 
 bool graph_has_edge(Graph *G, uint32_t i, uint32_t j) {
-	return g->matrix[i][j] != 0;
+	return G->matrix[i][j] != 0;
 }
 
 uint32_t graph_edge_weight(Graph *G, uint32_t i, uint32_t j) {
-	return g->matrix[i][j];
+	return G->matrix[i][j];
 }
 
 bool graph_visited(Graph *G, uint32_t v) {
-	return g->visited[v];
+	return G->visited[v];
 }
 
 void graph_mark_visited(Graph *G, uint32_t v) {
-	g->visited[v] = true;
+	G->visited[v] = true;
 }
 void graph_mark_unvisited(Graph *G, uint32_t v) {
-	g->visited[v] = false;
+	G->visited[v] = false;
 }
 
 void graph_print(Graph *G) {
 	for(uint32_t x = 0; x < VERTICES; x++) {
 		for(uint32_t y = 0; y < VERTICES; y++) {
-                        printf("%d ",g->matrix[x][y]);
+                        printf("%d ",G->matrix[x][y]);
 			if(y == VERTICES - 1) {
 				printf("\n");
 			}
