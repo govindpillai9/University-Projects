@@ -3,12 +3,14 @@ CFLAGS = -Wall -Werror -Wpedantic -Wextra
 
 all: encode decode entropy error
 
-encode: encode.o  bv.o bm.o
-	$(CC) $(CFLAGS) -o encode encode.o bv.o bm.o -lm
+encode: encode.o hamming.o bv.o bm.o
+	$(CC) $(CFLAGS) -o encode encode.o hamming.o  bv.o bm.o -lm
 
 encode.o: encode.c
 	$(CC) $(CFLAGS) -c encode.c
 
+hamming.o: hamming.c
+	$(CC) $(CFLAGS) -c hamming.c
 
 bv.o: bv.c
 	$(CC) $(CFLAGS) -c bv.c
@@ -16,10 +18,12 @@ bv.o: bv.c
 bm.o: bm.c
 	$(CC) $(CFLAGS) -c bm.c
 
-decode: decode.o bv.o bm.o
-	$(CC) $(CFLAGS) -o decode decode.o bv.o bm.o -lm
+decode: decode.o hamming.o bv.o bm.o
+	$(CC) $(CFLAGS) -o decode decode.o hamming.o bv.o bm.o -lm
 decode.o: decode.c
 	$(CC) $(CFLAGS) -c decode.c
+hamming.o: hamming.c
+	$(CC) $(CFLAGS) -c hamming.c
 bv.o: bv.c
 	$(CC) $(CFLAGS) -c bv.c
 bm.o: bm.c

@@ -65,8 +65,13 @@ BitMatrix *bm_from_data(uint8_t byte, uint32_t length) {
 
 uint8_t bm_to_data(BitMatrix *m) {
 	uint8_t value = 0;
+	uint8_t temp =0;
 	for(uint32_t i = 0; i < m->cols; i++) {
-		value ^= bv_get_bit(m->vector,i);
+		temp = bv_get_bit(m->vector,i);
+		for(uint32_t j = 0; j < i; j++) {
+			temp *= 2;
+		}
+		value += temp;
 	}
 	return value;
 }
@@ -77,16 +82,19 @@ BitMatrix *bm_multiply(BitMatrix *A, BitMatrix *B) {
 		for(uint32_t j = 0; j < B->cols; j++) {
 			uint8_t sum = 0;
 			for(uint32_t k = 0; k < A->cols; k++) {
-				sum ^= (bm_get_bit(A, i, k) & bm_get_bit(B, k, i));
+				sum ^= (bm_get_bit(A, i, k) & bm_get_bit(B, k, j));
 			}
-			bm_set_bit(pointer, i, j);
-
+			if(sum == 1) {
+				bm_set_bit(pointer, i, j);
+			}else{
+				bm_clr_bit(pointer,i,j);
+			}
 		}
 	}
 	return pointer;
 }
 
 void bm_print(BitMatrix *m) {
-	printf("%d",m->rows);
+	bv_print(m->vector);
 }
 

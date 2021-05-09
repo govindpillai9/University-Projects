@@ -61,13 +61,12 @@ uint8_t bv_get_bit(BitVector *v, uint32_t i) {
 }
 
 void bv_print(BitVector *v) {
-	printf("%d", v->length);
-	/*for (uint32_t i = 0; i < b->vec; i++) {
-        	printf("%" PRId64, s->items[i]);
+	for (uint32_t i = 0; i < v->length; i++) {
+        	printf("%d ",bv_get_bit(v,i));
         	printf(", ");
     	}
-    	printf("]");
-	*/
+    	printf("\n");
+
 
 }
 
