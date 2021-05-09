@@ -6,10 +6,10 @@
 #include <stdlib.h>
 #include "bv.h"
 
-typedef struct BitVector BitVector {
+typedef struct BitVector {
 	uint32_t length;
 	uint8_t *vector;
-}
+}BitVector;
 
 BitVector *bv_create(uint32_t length) {
    BitVector *v = (BitVector *) malloc(sizeof(BitVector));
