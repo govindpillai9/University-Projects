@@ -14,14 +14,17 @@ typedef struct BitMatrix {
 
 BitMatrix *bm_create(uint32_t rows, uint32_t cols) {
 	BitMatrix *m = (BitMatrix *) malloc(sizeof(BitMatrix));
-	m->rows = rows;
-	m->cols = cols;
-	m->vector = bv_create(rows*cols);
+	if(m) {
+		m->rows = rows;
+		m->cols = cols;
+		m->vector = bv_create(rows*cols);
+	}
+	return m;
 }
 
 void bm_delete(BitMatrix **m) {
     if (*m && (*m)->vector) {
-        bv_delete((*m)->vector);
+        bv_delete(&(*m)->vector);
         free(*m);
         *m = NULL;
     }
@@ -45,7 +48,7 @@ void bm_clr_bit(BitMatrix *m, uint32_t r, uint32_t c) {
 }
 
 uint8_t bm_get_bit(BitMatrix *m, uint32_t r, uint32_t c) {
-	bv_get_bit(m->vector,r*(m->cols)+c);
+	return bv_get_bit(m->vector,r*(m->cols)+c);
 }
 
 BitMatrix *bm_from_data(uint8_t byte, uint32_t length) {
@@ -57,6 +60,7 @@ BitMatrix *bm_from_data(uint8_t byte, uint32_t length) {
 			bm_clr_bit(matrix,0,i);
 		}
 	}
+	return matrix;
 }
 
 uint8_t bm_to_data(BitMatrix *m) {
@@ -79,9 +83,10 @@ BitMatrix *bm_multiply(BitMatrix *A, BitMatrix *B) {
 
 		}
 	}
+	return pointer;
 }
 
 void bm_print(BitMatrix *m) {
-	printf("[");
+	printf("%d",m->rows);
 }
 

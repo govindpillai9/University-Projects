@@ -18,7 +18,7 @@ BitVector *bv_create(uint32_t length) {
 	if(length > 0) {
 		//from Sahiti's Lab Section
 		uint32_t val = length % 8 == 0 ? length/8:length/8 + 1;
-		v->vector = (uint8_t) calloc(val, sizeof(uint8_t));
+		v->vector = (uint8_t *) calloc(val, sizeof(uint8_t));
 	}
         if (!v->vector) {
             free(v);
@@ -52,7 +52,7 @@ void bv_clr_bit(BitVector *v, uint32_t i) {
 }
 
 void bv_xor_bit(BitVector *v, uint32_t i, uint8_t bit) {
-	v->vector[i/8] ^= (1 << (i % 8));
+	v->vector[i/8] ^= (bit << (i % 8));
 }
 
 uint8_t bv_get_bit(BitVector *v, uint32_t i) {
@@ -61,7 +61,7 @@ uint8_t bv_get_bit(BitVector *v, uint32_t i) {
 }
 
 void bv_print(BitVector *v) {
-	printf("[");
+	printf("%d", v->length);
 	/*for (uint32_t i = 0; i < b->vec; i++) {
         	printf("%" PRId64, s->items[i]);
         	printf(", ");
