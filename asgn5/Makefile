@@ -18,8 +18,8 @@ bv.o: bv.c
 bm.o: bm.c
 	$(CC) $(CFLAGS) -c bm.c
 
-decode: decode.o hamming.o bv.o bm.o
-	$(CC) $(CFLAGS) -o decode decode.o hamming.o bv.o bm.o -lm
+decode: decode.o hamming.o bv.o bm.o misc.o
+	$(CC) $(CFLAGS) -o decode decode.o hamming.o bv.o bm.o misc.o -lm
 decode.o: decode.c
 	$(CC) $(CFLAGS) -c decode.c
 hamming.o: hamming.c
@@ -28,6 +28,8 @@ bv.o: bv.c
 	$(CC) $(CFLAGS) -c bv.c
 bm.o: bm.c
 	$(CC) $(CFLAGS) -c bm.c
+misc.o: misc.c
+	$(CC) $(CFLAGS) -c misc.c
 
 entropy: entropy.o
 	$(CC) $(CFLAGS) -o entropy entropy.o -lm

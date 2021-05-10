@@ -39,6 +39,17 @@ int main(int argc, char **argv) {
 				break;
 		}
 	}
+	if(help) {
+		printf("SUMMARY\n");
+		printf("   creates a (8,4) Hamming code\n");
+		printf("HOW TO USE\n");
+		printf("   ./encode [-h] [-i infile] [-o outfile]\n");
+		printf("OPTIONS\n");
+		printf("   -h: Help menu to use program\n");
+		printf("   -i: File to receive data\n");
+		printf("   -o: File to print data\n");
+		return 0;
+	}
 	BitMatrix *gen = bm_create(4,8);
 	for(uint32_t i = 0; i < 8; i++) {
 		for(uint32_t j = 0; j < 4; j++) {
