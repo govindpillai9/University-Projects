@@ -32,7 +32,7 @@ PriorityQueue *pq_create(uint32_t capacity) {
 
 void pq_delete(PriorityQueue **q) {
     if (*q && (*q)->items) {
-        free((*q)->items);
+        node_delete((*q)->items);
         free(*q);
         *q = NULL;
     }
@@ -87,7 +87,7 @@ bool dequeue(PriorityQueue *q, Node **n) {
         return false;
     }
     q->size -= 1;
-    n = &q->items[q->head];
+    *n = q->items[q->head];
     q->head = (q->head + 1) % q->capacity;
     return true;
 	

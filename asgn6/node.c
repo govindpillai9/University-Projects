@@ -31,9 +31,7 @@ Node *node_join(Node *left, Node *right) {
 	new_node->right = right;
 	return new_node;
 }
-void show_node(Node *n) {
-        printf("(%d, %lu)",n->symbol,n->frequency);
-}
+
 void node_print(Node *n) {
 	printf("-----------------------\n");
 	printf("Node: (%d, %lu)\n",n->symbol,n->frequency);
