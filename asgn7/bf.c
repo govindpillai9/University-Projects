@@ -8,13 +8,14 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+//defines a bloom filter
 typedef struct BloomFilter {
     uint64_t primary[2];
     uint64_t secondary[2];
     uint64_t tertiary[2];
     BitVector *filter;
 } BloomFilter;
-
+//creates a bloom filter
 BloomFilter *bf_create(uint32_t size) {
     BloomFilter *bf = (BloomFilter *) malloc(sizeof(BloomFilter));
     if (bf) {
@@ -32,7 +33,7 @@ BloomFilter *bf_create(uint32_t size) {
     }
     return (bf);
 }
-
+//deletes the bloom filter
 void bf_delete(BloomFilter **bf) {
     if (*bf && (*bf)->filter) {
         bv_delete(&(*bf)->filter);
@@ -41,13 +42,14 @@ void bf_delete(BloomFilter **bf) {
     }
     return;
 }
-
+//returns the size of the bloom filter
 uint32_t bf_size(BloomFilter *bf) {
     return bv_length(bf->filter);
 }
-
+//inserts an item into the bloom filter
 void bf_insert(BloomFilter *bf, char *oldspeak) {
     uint32_t index = 0;
+    //uses hash to get the bloom filter index
     index = hash(bf->primary, oldspeak) % bf_size(bf);
     bv_set_bit(bf->filter, index);
     index = hash(bf->secondary, oldspeak) % bf_size(bf);
@@ -55,7 +57,7 @@ void bf_insert(BloomFilter *bf, char *oldspeak) {
     index = hash(bf->tertiary, oldspeak) % bf_size(bf);
     bv_set_bit(bf->filter, index);
 }
-
+//checks if a word is in the bloom filter
 bool bf_probe(BloomFilter *bf, char *oldspeak) {
     uint32_t index = 0;
     index = hash(bf->primary, oldspeak) % bf_size(bf);
@@ -72,7 +74,7 @@ bool bf_probe(BloomFilter *bf, char *oldspeak) {
     }
     return true;
 }
-
+//returns the number of set bits in the bloom filter
 uint32_t bf_count(BloomFilter *bf) {
     uint32_t count = 0;
     for (uint32_t i = 0; i < bf_size(bf); i++) {
@@ -82,7 +84,7 @@ uint32_t bf_count(BloomFilter *bf) {
     }
     return count;
 }
-
+//prints the bloom filter
 void bf_print(BloomFilter *bf) {
     printf("Bloom Filter: [");
     for (uint32_t i = 0; i < bf_size(bf); i++) {

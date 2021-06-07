@@ -16,8 +16,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
-#define WORD    "[_a-zA-Z0-9]+(('|-)[_a-zA-Z0-9]+)*"
+//regular expression
+#define WORD "[_a-zA-Z0-9]+(('|-)[_a-zA-Z0-9]+)*"
+//options
 #define OPTIONS "ht:f:ms"
 int main(int argc, char **argv) {
     int opt = 0;
@@ -26,6 +27,7 @@ int main(int argc, char **argv) {
     bool m = false;
     bool stats = false;
     bool help = false;
+    //runs through command-line arguments
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
         case 'h': help = true; break;
@@ -35,6 +37,7 @@ int main(int argc, char **argv) {
         case 's': stats = true; break;
         }
     }
+    //prints help menu if specified by user
     if (help) {
         printf("SYNOPSIS\n");
         printf("   A word filter program for the GPRSC.\n");
@@ -49,11 +52,15 @@ int main(int argc, char **argv) {
         printf("   s: prints program statistics\n");
         return 0;
     }
-
+    //creates bloom filter and hash table used to filter
     BloomFilter *bf = bf_create(f_size);
     HashTable *ht = ht_create(t_size, m);
+    //creates linked lists used to keep track of the bad and questionable words
+    //written by the input file
     LinkedList *bad_list = ll_create(m);
     LinkedList *old_list = ll_create(m);
+    //reads badspeak.txt and inserts the words into the bloom filter and
+    //hash table
     char buffer[4096];
     FILE *fp;
     fp = fopen("badspeak.txt", "r");
@@ -61,7 +68,8 @@ int main(int argc, char **argv) {
         bf_insert(bf, buffer);
         ht_insert(ht, buffer, NULL);
     }
-
+    //reads newspeak.txt and adds oldspeak to the bloom filter
+    //also adds the old/newspeak pairs to the hash table
     char old[4096];
     char new[4096];
     FILE *optr;
@@ -71,6 +79,10 @@ int main(int argc, char **argv) {
         bf_insert(bf, old);
         ht_insert(ht, old, new);
     }
+    //given by Prof. Long
+    //in Lab Doc
+    //reads in one word at a time from the input file using specified
+    //regular expression
     regex_t re;
     if (regcomp(&re, WORD, REG_EXTENDED)) {
         fprintf(stderr, "Failed to compile regex.\n");
@@ -79,6 +91,7 @@ int main(int argc, char **argv) {
 
     char *word = NULL;
     while ((word = next_word(stdin, &re)) != NULL) {
+        //converts the given word to lowercase
         char new_word[strlen(word) + 1];
         for (uint32_t i = 0; i < strlen(word); i++) {
             if (isalpha(word[i])) {
@@ -88,9 +101,12 @@ int main(int argc, char **argv) {
             }
         }
         new_word[strlen(word)] = 0;
+        //checks the words against the bloom filter and hash table
         if (bf_probe(bf, new_word)) {
             Node *n = ht_lookup(ht, new_word);
             if (n) {
+                //if a bad or questionable word is found, the word
+                //is added to bad_list or old_list respectively
                 if (n->newspeak == NULL) {
                     ll_insert(bad_list, new_word, NULL);
                 } else {
@@ -99,6 +115,7 @@ int main(int argc, char **argv) {
             }
         }
     }
+    //prints the statistics if specified by the user
     if (stats) {
         printf("Seeks: %lu\n", seeks);
         printf("Average seek length: %.6f\n", ((float) (links)) / seeks);
@@ -106,6 +123,7 @@ int main(int argc, char **argv) {
         printf("Bloom filter load: %.6f%%\n", 100 * ((float) (bf_count(bf))) / bf_size(bf));
         return 0;
     }
+    //prints the final messages and the bad/questionable words
     if (ll_length(bad_list) == 0) {
         printf("%s", goodspeak_message);
         ll_print(old_list);
@@ -119,6 +137,7 @@ int main(int argc, char **argv) {
             ll_print(old_list);
         }
     }
+    //frees all the allocated memory
     clear_words();
     regfree(&re);
     fclose(optr);

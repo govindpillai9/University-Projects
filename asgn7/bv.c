@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//defines a bit vector
 typedef struct BitVector {
     uint32_t length;
     uint8_t *vector;

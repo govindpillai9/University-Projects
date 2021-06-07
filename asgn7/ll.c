@@ -12,15 +12,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+//extern variables used to keep track of statistics
 uint64_t links = 0;
 uint64_t seeks = 0;
+//defining a linked list
 typedef struct LinkedList {
     uint32_t length;
     Node *head;
     Node *tail;
     bool mtf;
 } LinkedList;
-
+//creating the linked list
 LinkedList *ll_create(bool mtf) {
     LinkedList *ll = (LinkedList *) malloc(sizeof(LinkedList));
     if (ll) {
@@ -35,7 +37,7 @@ LinkedList *ll_create(bool mtf) {
     }
     return ll;
 }
-
+//deleting the linked list
 void ll_delete(LinkedList **ll) {
     if (*ll) {
         Node *n = (*ll)->head;
@@ -50,19 +52,23 @@ void ll_delete(LinkedList **ll) {
     }
     return;
 }
-
+//return the length of the linked list NOT INCLUDING the head and tail
 uint32_t ll_length(LinkedList *ll) {
     return ll->length;
 }
-
+//looks up an item in the linked list
+//if the item is found, the node is returned
+//if the item is not found, NULL is returned
 Node *ll_lookup(LinkedList *ll, char *oldspeak) {
     seeks++;
     bool found = false;
     Node *n = ll->head->next;
+    //traverses through linked list
     while (n) {
         if (n->next == NULL) {
             break;
         }
+        //checks if the node is found or not
         if (strcmp(n->oldspeak, oldspeak) == 0) {
             found = true;
             break;
@@ -73,6 +79,7 @@ Node *ll_lookup(LinkedList *ll, char *oldspeak) {
     if (!found) {
         return NULL;
     }
+    //move the found node to the front if mtf is enabled
     if (ll->mtf) {
         n->prev->next = n->next;
         n->next->prev = n->prev;
@@ -83,18 +90,19 @@ Node *ll_lookup(LinkedList *ll, char *oldspeak) {
     }
     return n;
 }
-
+//inserts a node into the linked list
 void ll_insert(LinkedList *ll, char *oldspeak, char *newspeak) {
     if (!ll_lookup(ll, oldspeak)) {
         Node *n = node_create(oldspeak, newspeak);
         ll->length++;
+        //updating the new links of the linked list
         n->prev = ll->head;
         n->next = ll->head->next;
         ll->head->next = n;
         n->next->prev = n;
     }
 }
-
+//prints the linked list
 void ll_print(LinkedList *ll) {
     Node *n = ll->head->next;
     while (n) {

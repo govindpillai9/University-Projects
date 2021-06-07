@@ -12,14 +12,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+//defines a hash table
 typedef struct HashTable {
     uint64_t salt[2];
     uint32_t size;
     bool mtf;
     LinkedList **lists;
 } HashTable;
-
+//creates a hash table
 HashTable *ht_create(uint32_t size, bool mtf) {
     HashTable *ht = (HashTable *) malloc(sizeof(HashTable));
     if (ht) {
@@ -35,7 +35,7 @@ HashTable *ht_create(uint32_t size, bool mtf) {
     }
     return ht;
 }
-
+//deletes the hash table
 void ht_delete(HashTable **ht) {
     if (*ht && (*ht)->lists) {
         for (uint32_t i = 0; i < (*ht)->size; i++) {
@@ -47,11 +47,13 @@ void ht_delete(HashTable **ht) {
     }
     return;
 }
-
+//returns the size of the hash table
 uint32_t ht_size(HashTable *ht) {
     return ht->size;
 }
-
+//look if an item is in the hash table
+//if the item was found it returns the node
+//if it was not found it returns NULL
 Node *ht_lookup(HashTable *ht, char *oldspeak) {
     uint32_t index = hash(ht->salt, oldspeak) % ht->size;
     if (!ht->lists[index]) {
@@ -59,7 +61,7 @@ Node *ht_lookup(HashTable *ht, char *oldspeak) {
     }
     return ll_lookup(ht->lists[index], oldspeak);
 }
-
+//inserts an item into the hashtable
 void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {
     uint32_t index = hash(ht->salt, oldspeak) % ht->size;
     if (!ht->lists[index]) {
@@ -67,7 +69,7 @@ void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {
     }
     ll_insert(ht->lists[index], oldspeak, newspeak);
 }
-
+//counts the number of linked lists in the hash table
 uint32_t ht_count(HashTable *ht) {
     uint32_t count = 0;
     for (uint32_t i = 0; i < ht->size; i++) {
@@ -77,7 +79,7 @@ uint32_t ht_count(HashTable *ht) {
     }
     return count;
 }
-
+//prints the hash table
 void ht_print(HashTable *ht) {
     for (uint32_t i = 0; i < ht->size; i++) {
         printf("%d: ", i + 1);
