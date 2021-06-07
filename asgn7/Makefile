@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -Wall -Wextra -Wpedantic
+CFLAGS = -Wall -Wextra -Werror -Wpedantic
 
 all: banhammer
 
@@ -29,3 +29,9 @@ ht.o: ht.c
 
 parser.o: parser.c
 	$(CC) $(CFLAGS) -c parser.c
+
+clean:
+	rm -f *.o banhammer
+
+format:
+	clang-format -i -style=file *.h *.c

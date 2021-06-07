@@ -60,15 +60,10 @@ void bv_print(BitVector *v) {
     printf("Bit Vector: [");
     for (uint32_t i = 0; i < v->length; i++) {
         printf("%d", bv_get_bit(v, i));
-	if(i < v->length-1) {
-        	printf(", ");
-	}
+        if (i < v->length - 1) {
+            printf(", ");
+        }
     }
     printf("]");
     printf("\n");
 }
-
-
-
-
-
