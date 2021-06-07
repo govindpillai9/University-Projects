@@ -100,7 +100,6 @@ int main(int argc, char **argv) {
         }
     }
     if (stats) {
-        printf("%d\n", m);
         printf("Seeks: %lu\n", seeks);
         printf("Average seek length: %.6f\n", ((float) (links)) / seeks);
         printf("Hash table load: %.6f%%\n", 100 * ((float) (ht_count(ht))) / ht_size(ht));
